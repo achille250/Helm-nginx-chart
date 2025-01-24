@@ -17,4 +17,4 @@ spec:
   # selector specifies the labels that the service uses to select the pods it routes traffic to.
   selector:
     # app label is used to match the pods created by the deployment.
-    app: {{ .Chart.Name }}
+    app: {{ .Chart.Name }}d

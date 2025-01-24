@@ -25,7 +25,7 @@ spec:
               service:
                 name: {{ $.Release.Name }}-nginx  # Specifies the backend service for the ingress rule.
                 port:
-                  number: {{ $.Values.service.ports }}  # The port of the backend service.
+                  number: {{ $.Values.service.port }}  # The port of the backend service.
           {{- end }}
     {{- end }}
 {{- end }}

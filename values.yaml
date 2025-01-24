@@ -57,3 +57,4 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # Uncomment if needed
   # targetMemoryUtilizationPercentage: 80
+  

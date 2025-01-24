@@ -5,7 +5,7 @@ metadata:
   name: {{ .Release.Name }}-nginx
   labels:
     # The label for the Deployment is dynamically set using the chart name.
-    app: {{ .Chart.Name }}
+    app: {{ .Chart.Name }
 spec:
   # The number of replicas to create for the Deployment is defined in the values.yaml file.
   replicas: {{ .Values.replicaCount }}

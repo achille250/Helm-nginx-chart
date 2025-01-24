@@ -1,0 +1,37 @@
+{{- if .Values.autoscaling.enabled }}  # This checks if autoscaling is enabled in the values.yaml file.
+apiVersion: autoscaling/v2  # Specifies the API version for the HorizontalPodAutoscaler resource.
+kind: HorizontalPodAutoscaler  # Defines the type of resource as HorizontalPodAutoscaler.
+metadata:
+  # The name of the HorizontalPodAutoscaler resource is dynamically set based on the chart's fullname.
+  name: {{ include "nginx-chart.fullname" . }}
+  labels:
+    # Labels are dynamically set using the chart's labels.
+    {{- include "nginx-chart.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    # This section defines the resource to scale (in this case, the Deployment).
+    apiVersion: apps/v1  # The API version for the Deployment resource.
+    kind: Deployment  # Specifies the kind of resource to scale (Deployment).
+    name: {{ include "nginx-chart.fullname" . }}  # The name of the Deployment resource to scale.
+  minReplicas: {{ .Values.autoscaling.minReplicas }}  # The minimum number of replicas for the Deployment.
+  maxReplicas: {{ .Values.autoscaling.maxReplicas }}  # The maximum number of replicas for the Deployment.
+  metrics:
+    # If targetCPUUtilizationPercentage is defined, set the metric for CPU utilization.
+    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource  # Specifies the metric type as Resource.
+      resource:
+        name: cpu  # The resource to monitor (in this case, CPU).
+        target:
+          type: Utilization  # The type of target for the metric (Utilization).
+          averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}  # The target CPU utilization percentage.
+    {{- end }}
+    # If targetMemoryUtilizationPercentage is defined, set the metric for memory utilization.
+    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource  # Specifies the metric type as Resource.
+      resource:
+        name: memory  # The resource to monitor (in this case, memory).
+        target:
+          type: Utilization  # The type of target for the metric (Utilization).
+          averageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}  # The target memory utilization percentage.
+    {{- end }}
+{{- end }}

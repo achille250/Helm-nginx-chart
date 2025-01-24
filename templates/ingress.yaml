@@ -1,0 +1,31 @@
+{{- if .Values.ingress.enabled }}  # This checks if the ingress is enabled in the values.yaml file.
+apiVersion: networking.k8s.io/v1  # Specifies the API version for the Ingress resource.
+kind: Ingress  # Defines the type of resource as Ingress.
+metadata:
+  # The name of the Ingress resource is dynamically set based on the release name.
+  name: {{ .Release.Name }}-nginx
+  annotations:
+    # This section iterates over any annotations provided in the values.yaml file for ingress.
+    # Each annotation key and value is added to the metadata.
+    {{- range $key, $value := .Values.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}  # Ensures the annotation value is quoted.
+    {{- end }}
+spec:
+  rules:
+    # This section iterates over the list of hosts defined in values.yaml.
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host }}  # Sets the host for the ingress rule, typically the domain name.
+      http:
+        paths:
+          # This section iterates over the paths for each host.
+          {{- range .paths }}
+          - path: {{ .path }}  # Specifies the URL path for the ingress rule.
+            pathType: {{ .pathType }}  # Defines the type of path matching (e.g., Prefix or Exact).
+            backend:
+              service:
+                name: {{ $.Release.Name }}-nginx  # Specifies the backend service for the ingress rule.
+                port:
+                  number: {{ $.Values.service.port }}  # The port of the backend service.
+          {{- end }}
+    {{- end }}
+{{- end }}

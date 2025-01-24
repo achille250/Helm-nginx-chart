@@ -1,0 +1,59 @@
+# Default values for nginx-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Set the number of replicas for the deployment
+replicaCount: 2
+
+# Container image settings
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: "1.23.0"
+
+# Service configuration
+service:
+  type: LoadBalancer  
+  port: 80
+  targetPort: 80
+
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+   # hosts defines the hostnames and paths that the ingress will route.
+  hosts:
+    - host: nginx.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Service account configuration
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  #defines the name of the service account
+  name: "nginx-service-account"
+
+# Resource requests and limits
+resources: {}
+  # Uncomment and configure these values as needed
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# Autoscaling configuration
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # Uncomment if needed
+  # targetMemoryUtilizationPercentage: 80

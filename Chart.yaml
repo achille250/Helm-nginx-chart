@@ -1,0 +1,17 @@
+# apiVersion: v2 specifies that the chart is using Helm 3.
+apiVersion: v2
+
+# name is the name of the Helm chart. It should be unique within the Helm repository.
+name: nginx-chart
+
+# description provides a short description of the chart and its purpose.
+description: A Helm chart for deploying Nginx
+
+# type defines the type of the chart. "application" means this chart deploys an application (as opposed to a library chart).
+type: application
+
+# version defines the version of the chart itself. It follows semantic versioning.
+version: "1.0.0"
+
+# appVersion defines the version of the application being deployed (in this case, Nginx).
+appVersion: "1.23.0"

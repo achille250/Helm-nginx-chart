@@ -15,3 +15,4 @@ version: "1.0.0"
 
 # appVersion defines the version of the application being deployed (in this case, Nginx).
 appVersion: "1.23.0"
+

@@ -16,7 +16,7 @@ spec:
   minReplicas: {{ .Values.autoscaling.minReplicas }}  # The minimum number of replicas for the Deployment.
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}  # The maximum number of replicas for the Deployment.
   metrics:
-    # If targetCPUUtilizationPercentage is defined, set the metric for CPU utilizatio.
+    # If targetCPUUtilizationPercentage is defined, set the metric for CPU utilization.
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource  # Specifies the metric type as Resource.
       resource:
